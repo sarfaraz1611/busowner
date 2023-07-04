@@ -1,4 +1,3 @@
-import { StatusBar } from "expo-status-bar";
 import { Button, StyleSheet, TextInput, View } from "react-native";
 import { useState, useEffect } from "react";
 import * as Location from "expo-location";
@@ -9,27 +8,28 @@ export default function App() {
 
   Location.setGoogleApiKey("AIzaSyD5GUOMMrDY5Ml8JOQ5j7z7p9f8GaGCDBg");
 
-  useEffect(() => {
-    const getPermissions = async () => {
-      let { status } = await Location.requestForegroundPermissionsAsync();
-      if (status !== "granted") {
-        console.log("Please grant location permissions");
-        return;
-      }
+  // useEffect(() => {
+  // setTimeout(() => {
+  //   const getPermissions = async () => {
+  //     let { status } = await Location.requestForegroundPermissionsAsync();
+  //     if (status !== "granted") {
+  //       console.log("Please grant location permissions");
+  //       return;
+  //     }
 
-      let currentLocation = await Location.getCurrentPositionAsync({});
-      setLocation(currentLocation);
-      console.log("Location:");
-      console.log(currentLocation);
-    };
-    getPermissions();
-  }, []);
+  //     let currentLocation = await Location.getCurrentPositionAsync({});
+  //     setLocation(currentLocation);
+  //     console.log("Location:");
+  //     console.log(currentLocation);
+  //   };
+  //   getPermissions();
+  // }, 10000);
 
-  const geocode = async () => {
-    const geocodedLocation = await Location.geocodeAsync(address);
-    console.log("Geocoded Address:");
-    console.log(geocodedLocation);
-  };
+  // const geocode = async () => {
+  //   const geocodedLocation = await Location.geocodeAsync(address);
+  //   console.log("Geocoded Address:");
+  //   console.log(geocodedLocation);
+  // };
 
   const reverseGeocode = async () => {
     const reverseGeocodedAddress = await Location.reverseGeocodeAsync({
@@ -40,7 +40,6 @@ export default function App() {
     console.log("Reverse Geocoded:");
     console.log(reverseGeocodedAddress);
   };
-
   return (
     <View style={styles.container}>
       <TextInput
@@ -49,11 +48,9 @@ export default function App() {
         onChangeText={setAddress}
       />
       <Button title="Geocode Address" onPress={geocode} />
-      <Button
-        title="Reverse Geocode Current Location"
-        onPress={reverseGeocode}
-      />
-      <StatusBar style="auto" />
+
+      <Button title="Current Location" onPress={reverseGeocode} />
+      {/* <StatusBar style="auto" /> */}
     </View>
   );
 }
