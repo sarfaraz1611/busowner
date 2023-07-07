@@ -57,19 +57,18 @@ const DriverScreen = ({ navigation }) => {
       setLat(location.latitude);
       setLong(location.longitude);
       setplace(reverseGeocodedAddress[0].city);
-      console.log("====================================");
-      console.log("latis ", location.latitude);
-      console.log(location.longitude);
-      console.log(reverseGeocodedAddress[0]);
-      console.log("====================================");
-
-      console.log("====================================");
-      console.log("latis ", lat);
-      console.log(long);
-      console.log(place);
-      console.log("====================================");
+      // console.log("====================================");
+      // console.log("latis ", location.latitude);
+      // console.log(location.longitude);
+      // console.log(reverseGeocodedAddress[0]);
+      // console.log("====================================");
     }
   };
+  console.log("====================================");
+  console.log("latis ", lat);
+  console.log(long);
+  console.log(place);
+  console.log("====================================");
 
   const call = async () => {
     try {
@@ -87,12 +86,14 @@ const DriverScreen = ({ navigation }) => {
     const interval = setInterval(() => {
       getLocation();
       console.log("asljkdakjdcd");
-      if (lat !== 0 && long !== 0) {
-        locationpush(id, lat, long, place);
-      }
-    }, 1000);
+    }, 10000);
     return () => clearInterval(interval);
   }, []);
+  useEffect(() => {
+    if (lat && long && place) {
+      locationpush(id, lat, long, place);
+    }
+  }, [lat, long, place]);
 
   const locationpush = async (id, lat, long, place) => {
     try {
