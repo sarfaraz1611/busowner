@@ -3,6 +3,7 @@ import React, { useEffect, useState, useContext } from "react";
 import { Picker } from "@react-native-picker/picker";
 import { UserContext } from "../App";
 import Container, { Toast } from "toastify-react-native";
+
 import {
   FlatList,
   StyleSheet,
@@ -19,7 +20,7 @@ import { Surface, Title, TextInput } from "react-native-paper";
 import ModalView from "./ModalView";
 import PostCardItem from "./PostCardItem";
 
-const HomeScreen = ({ navigation }) => {
+const OwnerScreen = ({ navigation }) => {
   const { id, roles } = useContext(UserContext);
 
   const [data, setData] = useState([]);
@@ -46,8 +47,8 @@ const HomeScreen = ({ navigation }) => {
 
   const [BusdataId, setBusdataId] = useState(0);
   // const [loading, setLoading] = useState(false);
-  // setTimeout(() => {
-
+  // console.log(BusdataId);
+  // console.log(data);
   const editPost = (
     BusdataId,
     busname,
@@ -96,7 +97,6 @@ const HomeScreen = ({ navigation }) => {
         // isSetLoading(false);
         console.log("updated");
         Toast.success("Updated  Succesfully");
-
         setData(res.data.data);
       })
       .catch((e) => console.log(e));
@@ -126,7 +126,7 @@ const HomeScreen = ({ navigation }) => {
   ) => {
     axios
       .post(
-        `http://192.168.0.196:3100/post?operatorId=${id}&busName=${busname}&busRno=${busno}&password=${password}&route=${route}&startPoint=${spoint}&lastPoint=${dpoint}&stop1=${stop1}&stop2=${stop2}&stop3=${stop3}&stop4=${stop4}&stop5=${stop5}&stop6=${stop6}&stop1time=${stop1time}&stop2time=${stop2time}&stop3time=${stop3time}&stop4time=${stop4time}&stop5time=${stop5time}&stop6time=${stop6time}&status=${status}`
+        `https://sarfaraz.onrender.com/post?operatorId=${id}&busName=${busname}&busRno=${busno}&password=${password}&route=${route}&startPoint=${spoint}&lastPoint=${dpoint}&stop1=${stop1}&stop2=${stop2}&stop3=${stop3}&stop4=${stop4}&stop5=${stop5}&stop6=${stop6}&stop1time=${stop1time}&stop2time=${stop2time}&stop3time=${stop3time}&stop4time=${stop4time}&stop5time=${stop5time}&stop6time=${stop6time}&status=${status}`
       )
       .then((res) => {
         // setCourses(res.data.data);
@@ -134,7 +134,8 @@ const HomeScreen = ({ navigation }) => {
         console.log("added successfully");
         Toast.success("new Data added  Succesfully");
 
-        // setData(res.data.data);
+        setData(res.data.data);
+        call();
       })
       .catch((e) => console.log(e));
   };
@@ -145,6 +146,9 @@ const HomeScreen = ({ navigation }) => {
       .then((res) => {
         console.log("deleted");
         Toast.success("Deleted");
+        setData((prevData) =>
+          prevData.filter((item) => item._id !== BusdataId)
+        );
       })
       .catch((e) => console.log(e));
   };
@@ -158,7 +162,7 @@ const HomeScreen = ({ navigation }) => {
     // setRoute("");
     // setSpoint("");
     // setDponit("");
-    // setStatus("");
+    setStatus("");
     // setstop1("");
     // setstop2("");
     // setstop3("");
@@ -222,13 +226,13 @@ const HomeScreen = ({ navigation }) => {
 
   const call = async () => {
     axios
-      .get(`https://sarfaraz.onrender.com/allbuses`)
+      .get(`https://sarfaraz.onrender.com/allbuses/${id}`)
       .then((res) => {
         // isSetLoading(false);
         // console.log(res.data.data);
         setData(res.data.data);
       })
-      .catch((e) => console.log(e));
+      .catch((e) => console.log("sasdasdasd", e));
   };
   useEffect(() => {
     call();
@@ -240,7 +244,7 @@ const HomeScreen = ({ navigation }) => {
       <Container position="top" />
       <StatusBar style="auto" />
       <Surface style={styles.header}>
-        <Title onPress={() => navigation.navigate("Loginscreen")}>ADMIN</Title>
+        <Title onPress={() => navigation.navigate("Loginscreen")}>Owner</Title>
         <TouchableOpacity
           style={styles.button}
           onPress={() => {
@@ -252,7 +256,7 @@ const HomeScreen = ({ navigation }) => {
       <FlatList
         data={data}
         keyExtractor={(item, index) => item.id + index.toString()}
-        // refreshing={loading}
+        // refreshing={}
         // onRefresh={call}
         renderItem={({ item }) => (
           <PostCardItem
@@ -375,7 +379,7 @@ const HomeScreen = ({ navigation }) => {
           <TextInput
             label="PASSWORD"
             value={password}
-            onChangeText={(text) => setpass(text)} //busno
+            onChangeText={(text) => setPassword(text)} //password
             mode="outlined"
           />
           <View>
@@ -542,6 +546,13 @@ const styles = StyleSheet.create({
   buttonText: {
     color: "white",
   },
+  buttonStyle: {
+    marginTop: 10,
+    backgroundColor: "white",
+    borderColor: "green",
+    borderWidth: 2,
+    padding: 10,
+  },
 });
 
-export default HomeScreen;
+export default OwnerScreen;

@@ -14,6 +14,7 @@ export default function PostCardItem({
   busname,
   busno,
   route,
+  password,
   spoint,
   dpoint,
   status,
@@ -28,6 +29,7 @@ export default function PostCardItem({
           <Text style={styles.title}>{busname}</Text>
           <Text>BusName:{busname}</Text>
           <Text>BusRNo:{busno}</Text>
+          <Text>password:{password}</Text>
           <Text>Route:{route}</Text>
           <Text>Spoint:{spoint}</Text>
           <Text>Dpoint:{dpoint}</Text>

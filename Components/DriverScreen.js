@@ -9,16 +9,28 @@ const DriverScreen = ({ navigation }) => {
   const { id, roles } = useContext(UserContext);
 
   const [location, setLocation] = useState({
-    accuracy: "",
+    // accuracy: "",
+    // altitude: "",
+    // altitudeAccuracy: "",
+    // heading: "",
     latitude: "",
     longitude: "",
+    speed: "",
   });
-  const [lat, setLat] = useState([]);
-  const [long, setLong] = useState([]);
-
+  // push this three to data base
+  const [lat, setLat] = useState(0);
+  const [long, setLong] = useState(0);
   const [place, setplace] = useState("");
+
   const [data, setData] = useState([]);
 
+  // if (!lat.includes(currentLocation.coords.latitude.toFixed(8))) {
+  //   setLat((obj) => [...obj, currentLocation.coords.latitude.toFixed(8)]);
+  // }
+
+  // if (!long.includes(currentLocation.coords.longitude.toFixed(8))) {
+  //   setLong((obj) => [...obj, currentLocation.coords.longitude.toFixed(8)]);
+  // }
   const getLocation = async () => {
     Location.setGoogleApiKey("AIzaSyD5GUOMMrDY5Ml8JOQ5j7z7p9f8GaGCDBg");
     let { status } = await Location.requestForegroundPermissionsAsync();
@@ -26,65 +38,77 @@ const DriverScreen = ({ navigation }) => {
       console.log("Please grant location permissions");
       return;
     }
+    try {
+      let currentLocation = await Location.getCurrentPositionAsync({});
 
-    let currentLocation = await Location.getCurrentPositionAsync({});
-    // console.log("====================================");
-    // console.log("current location uis ", currentLocation.coords);
-    // console.log("====================================");
-    setLocation(currentLocation.coords);
-    console.log("state location" + location.latitude);
-    console.log(currentLocation);
-    const reverseGeocodedAddress = await Location.reverseGeocodeAsync({
-      longitude: location.longitude,
-      latitude: location.latitude,
-    });
-
-    if (!lat.includes(currentLocation.coords.latitude.toFixed(6))) {
-      setLat((obj) => [...obj, currentLocation.coords.latitude.toFixed(6)]);
-    }
-    if (!long.includes(currentLocation.coords.longitude.toFixed(6))) {
-      setLong((obj) => [...obj, currentLocation.coords.longitude.toFixed(6)]);
+      location.latitude = currentLocation.coords.latitude;
+      location.longitude = currentLocation.coords.longitude;
+      console.log("state location" + JSON.stringify(location));
+      console.log(currentLocation.coords);
+    } catch (error) {
+      console.log("Error getting current location:", error);
     }
 
-    console.log(lat);
-    console.log(long);
-    setplace(reverseGeocodedAddress[0].city);
+    if (location.latitude) {
+      const reverseGeocodedAddress = await Location.reverseGeocodeAsync({
+        longitude: location.longitude,
+        latitude: location.latitude,
+      });
+      setLat(location.latitude);
+      setLong(location.longitude);
+      setplace(reverseGeocodedAddress[0].city);
+      console.log("====================================");
+      console.log("latis ", location.latitude);
+      console.log(location.longitude);
+      console.log(reverseGeocodedAddress[0]);
+      console.log("====================================");
+
+      console.log("====================================");
+      console.log("latis ", lat);
+      console.log(long);
+      console.log(place);
+      console.log("====================================");
+    }
   };
 
   const call = async () => {
-    axios
-      .get(`http://192.168.0.197:3100/driver/${id}`)
-      .then((res) => {
-        // isSetLoading(false);
-        //   console.log("sadasdsasdassdasd", res.data.data[0]);
-        setData(res.data.data[0]);
-      })
-      .catch((e) => console.log(e));
+    try {
+      const response = await axios.get(
+        `https://sarfaraz.onrender.com/driver/${id}`
+      );
+      setData(response.data.data[0]);
+    } catch (error) {
+      console.log(error);
+    }
   };
+
   useEffect(() => {
     call();
+    const interval = setInterval(() => {
+      getLocation();
+      console.log("asljkdakjdcd");
+      if (lat !== 0 && long !== 0) {
+        locationpush(id, lat, long, place);
+      }
+    }, 1000);
+    return () => clearInterval(interval);
   }, []);
-  // var mytimer =
-  setInterval(() => {
-    getLocation();
-    // locationpush();
-  }, 1000);
-  //   clearInterval(mytimer);
 
-  const locationpush = async () => {
-    await axios
-      .post(`http://192.168.0.197:3100/location/${id}/path`, {
-        long,
-        lat,
-      })
-      .then((response) => {
-        console.log("Path data saved:", response.data);
-        // Do something with the response if needed
-      })
-      .catch((error) => {
-        console.error("Error saving path data:", error);
-        // Handle the error if needed
-      });
+  const locationpush = async (id, lat, long, place) => {
+    try {
+      const response = await axios.post(
+        `https://sarfaraz.onrender.com/location/${id}/path`,
+        {
+          lat,
+          long,
+          place,
+        }
+      );
+
+      console.log(response.data);
+    } catch (error) {
+      console.error("Error updating location:", error);
+    }
   };
   return (
     <SafeAreaView style={styles.container}>
@@ -173,7 +197,7 @@ const styles = StyleSheet.create({
     // justifyContent: "center",
   },
   header: {
-    marginTop: Platform.OS === "android" ? 30 : 0,
+    marginBottom: Platform.OS === "android" ? 20 : 0,
     padding: 16,
     elevation: 2,
     flexDirection: "row",

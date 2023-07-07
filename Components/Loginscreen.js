@@ -19,21 +19,23 @@ const LoginScreen = ({ navigation }) => {
   const login = async () => {
     await axios
       .get(
-        `http://192.168.0.197:3100/user/login?email=${email}&password=${password}`
+        `https://sarfaraz.onrender.com/user/login?email=${email}&password=${password}`
       )
       .then((response) => {
         if (response.data.success == true) {
           setId(response.data.message);
-          navigation.navigate("DriverScreen");
+
+          if (response.data.driver == 1) {
+            navigation.navigate("DriverScreen");
+          }
+
           if (response.data.roles) {
             setRoles(response.data.roles);
 
             if (response.data.roles == "admin") {
               navigation.navigate("HomeScreen");
-            } else if (response.data.roles == "driver") {
-              navigation.navigate();
             } else if (response.data.roles == "owner") {
-              navigation.navigate();
+              navigation.navigate("OwnerScreen");
             }
           }
         } else if (response.data.success == false) {
