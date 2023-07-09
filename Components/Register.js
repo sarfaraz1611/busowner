@@ -84,7 +84,7 @@ function Register({ navigation }) {
         // dropdownTextStyle={styles.dropdownMenuItemText}
       >
         <View style={styles.dropdownInnerContainer}>
-          <Text style={styles.dropdownValue}>{"Select Starting Point"}</Text>
+          <Text style={styles.dropdownValue}>{"Role"}</Text>
           <Text style={styles.dropdownArrow}>▼</Text>
         </View>
       </ModalDropdown>
