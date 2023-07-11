@@ -126,7 +126,7 @@ const HomeScreen = ({ navigation }) => {
   ) => {
     axios
       .post(
-        `http://192.168.0.196:3100/post?operatorId=${id}&busName=${busname}&busRno=${busno}&password=${password}&route=${route}&startPoint=${spoint}&lastPoint=${dpoint}&stop1=${stop1}&stop2=${stop2}&stop3=${stop3}&stop4=${stop4}&stop5=${stop5}&stop6=${stop6}&stop1time=${stop1time}&stop2time=${stop2time}&stop3time=${stop3time}&stop4time=${stop4time}&stop5time=${stop5time}&stop6time=${stop6time}&status=${status}`
+        `http://192.168.0.135:3100/post?operatorId=${id}&busName=${busname}&busRno=${busno}&password=${password}&route=${route}&startPoint=${spoint}&lastPoint=${dpoint}&stop1=${stop1}&stop2=${stop2}&stop3=${stop3}&stop4=${stop4}&stop5=${stop5}&stop6=${stop6}&stop1time=${stop1time}&stop2time=${stop2time}&stop3time=${stop3time}&stop4time=${stop4time}&stop5time=${stop5time}&stop6time=${stop6time}&status=${status}`
       )
       .then((res) => {
         // setCourses(res.data.data);
@@ -245,7 +245,8 @@ const HomeScreen = ({ navigation }) => {
           style={styles.button}
           onPress={() => {
             setVisible(true), updatePost();
-          }}>
+          }}
+        >
           <Text style={styles.buttonText}>NEW DATA</Text>
         </TouchableOpacity>
       </Surface>
@@ -352,7 +353,8 @@ const HomeScreen = ({ navigation }) => {
             );
           }
         }}
-        cancelable>
+        cancelable
+      >
         <ScrollView>
           {/* <TextInput
             label="OPERATOR ID"
@@ -387,7 +389,8 @@ const HomeScreen = ({ navigation }) => {
               height: 150,
               width: "100%",
             }}
-            onValueChange={(itemValue, itemIndex) => setRoute(itemValue)}>
+            onValueChange={(itemValue, itemIndex) => setRoute(itemValue)}
+          >
             <Picker.Item label="Padubidri" value="Padubidri" />
             <Picker.Item label="Mudubidri" value="Mudubidri" />
           </Picker>
@@ -397,7 +400,8 @@ const HomeScreen = ({ navigation }) => {
           <Picker
             selectedValue={spoint}
             style={{ height: 100, width: "100%" }}
-            onValueChange={(itemValue, itemIndex) => setSpoint(itemValue)}>
+            onValueChange={(itemValue, itemIndex) => setSpoint(itemValue)}
+          >
             <Picker.Item label="Mangalore" value="Mangalore" />
             <Picker.Item label="Karkala" value="Karkala" />
           </Picker>
@@ -413,7 +417,8 @@ const HomeScreen = ({ navigation }) => {
           <Picker
             selectedValue={dpoint}
             style={{ height: 120, width: "100%" }}
-            onValueChange={(itemValue, itemIndex) => setDponit(itemValue)}>
+            onValueChange={(itemValue, itemIndex) => setDponit(itemValue)}
+          >
             <Picker.Item label="Karkala" value="Karkala" />
             <Picker.Item label="Mangalore" value="Mangalore" />
           </Picker>
@@ -423,7 +428,8 @@ const HomeScreen = ({ navigation }) => {
           <Picker
             selectedValue={stop1}
             style={{ height: 120, width: "100%" }}
-            onValueChange={(itemValue, itemIndex) => setstop1(itemValue)}>
+            onValueChange={(itemValue, itemIndex) => setstop1(itemValue)}
+          >
             <Picker.Item label="Jhoti" value="Jhoti" />
             <Picker.Item label="annekerre" value="annekerre" />
           </Picker>
@@ -439,7 +445,8 @@ const HomeScreen = ({ navigation }) => {
             <Picker
               selectedValue={stop2}
               style={{ height: 50, width: "100%" }}
-              onValueChange={(itemValue, itemIndex) => setstop2(itemValue)}>
+              onValueChange={(itemValue, itemIndex) => setstop2(itemValue)}
+            >
               <Picker.Item label="Vamanjoor" value="Vamanjoor" />
               <Picker.Item label="Belvay" value="Belvay" />
             </Picker>
@@ -453,7 +460,8 @@ const HomeScreen = ({ navigation }) => {
             <Picker
               selectedValue={stop3}
               style={{ height: 50, width: "100%" }}
-              onValueChange={(itemValue, itemIndex) => setstop3(itemValue)}>
+              onValueChange={(itemValue, itemIndex) => setstop3(itemValue)}
+            >
               <Picker.Item label="Ganjimat" value="Ganjimat" />
               <Picker.Item label="Mudubidri" value="Mudubidri" />
             </Picker>
@@ -467,7 +475,8 @@ const HomeScreen = ({ navigation }) => {
             <Picker
               selectedValue={stop4}
               style={{ height: 50, width: "100%" }}
-              onValueChange={(itemValue, itemIndex) => setstop4(itemValue)}>
+              onValueChange={(itemValue, itemIndex) => setstop4(itemValue)}
+            >
               <Picker.Item label="Mudubidri" value="Mudubidri" />
               <Picker.Item label="Ganjimat" value="Ganjimat" />
             </Picker>
@@ -481,7 +490,8 @@ const HomeScreen = ({ navigation }) => {
             <Picker
               selectedValue={stop5}
               style={{ height: 50, width: "100%" }}
-              onValueChange={(itemValue, itemIndex) => setstop5(itemValue)}>
+              onValueChange={(itemValue, itemIndex) => setstop5(itemValue)}
+            >
               <Picker.Item label="Belvay" value="Belvay" />
               <Picker.Item label="Vamanjoor" value="Vamanjoor" />
             </Picker>
@@ -496,7 +506,8 @@ const HomeScreen = ({ navigation }) => {
             <Picker
               selectedValue={stop6}
               style={{ height: 50, width: "100%" }}
-              onValueChange={(itemValue, itemIndex) => setstop6(itemValue)}>
+              onValueChange={(itemValue, itemIndex) => setstop6(itemValue)}
+            >
               <Picker.Item label="annekerre" value="annekerre" />
               <Picker.Item label="Jhoti" value="Jhoti" />
             </Picker>
