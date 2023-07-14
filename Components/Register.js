@@ -25,7 +25,7 @@ function Register({ navigation }) {
     console.log(name);
     const respose = await axios
       .post(
-        `http://192.168.0.198:3100/user/register?Email=${Email}&name=${name}&password=${password}&roles=${roles}`
+        `https://sarfaraz.onrender.com/user/register?Email=${Email}&name=${name}&password=${password}&roles=${roles}`
       )
 
       .then((response) => {
@@ -92,7 +92,8 @@ function Register({ navigation }) {
       <TouchableOpacity
         onPress={() => {
           Registerfunction();
-        }}>
+        }}
+      >
         <Text style={styles.butto}>Sign Up </Text>
       </TouchableOpacity>
     </View>

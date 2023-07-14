@@ -126,7 +126,7 @@ const HomeScreen = ({ navigation }) => {
   ) => {
     axios
       .post(
-        `http://192.168.0.135:3100/post?operatorId=${id}&busName=${busname}&busRno=${busno}&password=${password}&route=${route}&startPoint=${spoint}&lastPoint=${dpoint}&stop1=${stop1}&stop2=${stop2}&stop3=${stop3}&stop4=${stop4}&stop5=${stop5}&stop6=${stop6}&stop1time=${stop1time}&stop2time=${stop2time}&stop3time=${stop3time}&stop4time=${stop4time}&stop5time=${stop5time}&stop6time=${stop6time}&status=${status}`
+        `https://sarfaraz.onrender.com/post?operatorId=${id}&busName=${busname}&busRno=${busno}&password=${password}&route=${route}&startPoint=${spoint}&lastPoint=${dpoint}&stop1=${stop1}&stop2=${stop2}&stop3=${stop3}&stop4=${stop4}&stop5=${stop5}&stop6=${stop6}&stop1time=${stop1time}&stop2time=${stop2time}&stop3time=${stop3time}&stop4time=${stop4time}&stop5time=${stop5time}&stop6time=${stop6time}&status=${status}`
       )
       .then((res) => {
         // setCourses(res.data.data);
