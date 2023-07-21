@@ -16,7 +16,7 @@ const LoginScreen = ({ navigation }) => {
 
   const { setId, setRoles } = useContext(UserContext);
 
-  const login = async () => {
+  const login = async ({ navigation }) => {
     await axios
       .get(
         `https://sarfaraz.onrender.com/user/login?email=${email}&password=${password}`
@@ -78,9 +78,9 @@ const LoginScreen = ({ navigation }) => {
         />
       </View>
 
-      {/* <TouchableOpacity onPress={onPressForgotPassword}>
+      <TouchableOpacity onPress={() => navigation.navigate("LoginTailwind")}>
         <Text style={styles.forgotAndSignUpText}>Forgot Password?</Text>
-      </TouchableOpacity> */}
+      </TouchableOpacity>
 
       <TouchableOpacity onPress={login} style={styles.loginBtn} color="#841584">
         <Text style={styles.loginText}>LOGIN </Text>
@@ -89,7 +89,8 @@ const LoginScreen = ({ navigation }) => {
       <TouchableOpacity>
         <Text
           style={styles.forgotAndSignUpText}
-          onPress={() => navigation.navigate("Register")}>
+          onPress={() => navigation.navigate("Register")}
+        >
           Signup
         </Text>
       </TouchableOpacity>
