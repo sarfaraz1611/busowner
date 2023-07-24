@@ -1,8 +1,10 @@
 import { StatusBar } from "expo-status-bar";
 import React, { useEffect, useState, useContext } from "react";
-import { Picker } from "@react-native-picker/picker";
+
 import { UserContext } from "../App";
 import Container, { Toast } from "toastify-react-native";
+import DropDownPicker from "react-native-dropdown-picker";
+
 import {
   FlatList,
   StyleSheet,
@@ -47,6 +49,25 @@ const HomeScreen = ({ navigation }) => {
   const [BusdataId, setBusdataId] = useState(0);
   // const [loading, setLoading] = useState(false);
   // setTimeout(() => {
+  const [open1, setOpen1] = useState(false);
+  const [open2, setOpen2] = useState(false);
+  const [open3, setOpen3] = useState(false);
+  const [open4, setOpen4] = useState(false);
+  const [open5, setOpen5] = useState(false);
+  const [open6, setOpen6] = useState(false);
+  const [open7, setOpen7] = useState(false);
+  const [open8, setOpen8] = useState(false);
+  const [open9, setOpen9] = useState(false);
+
+  const [items, setItems] = useState([
+    { label: "Karkala", value: "Karkala" },
+    { label: "annekerre", value: "annekerre" },
+    { label: "Belvay", value: "Belvay" },
+    { label: "Mudubidri", value: "Mudubidri" },
+    { label: "Ganjimat", value: "Ganjimat" },
+    { label: "Vamanjoor", value: "Vamanjoor" },
+    { label: "Jhoti", value: "Jhoti" },
+  ]);
 
   const editPost = (
     BusdataId,
@@ -145,6 +166,9 @@ const HomeScreen = ({ navigation }) => {
       .then((res) => {
         console.log("deleted");
         Toast.success("Deleted");
+        setData((prevData) =>
+          prevData.filter((item) => item._id !== BusdataId)
+        );
       })
       .catch((e) => console.log(e));
   };
@@ -238,9 +262,16 @@ const HomeScreen = ({ navigation }) => {
   return (
     <SafeAreaView style={styles.container}>
       <Container position="top" />
-      <StatusBar style="auto" />
+      <StatusBar
+        backgroundColor="#ffffff"
+        animated={true}
+        hidden={true}
+        translucent={true}
+      ></StatusBar>
       <Surface style={styles.header}>
-        <Title onPress={() => navigation.navigate("Loginscreen")}>ADMIN</Title>
+        <Title onPress={() => navigation.navigate("LoginTailwind")}>
+          ADMIN
+        </Title>
         <TouchableOpacity
           style={styles.button}
           onPress={() => {
@@ -299,6 +330,7 @@ const HomeScreen = ({ navigation }) => {
           />
         )}
       />
+
       <ModalView
         visible={visible}
         style={{ flexDirection: "column", margin: 40, Top: 200 }}
@@ -356,12 +388,6 @@ const HomeScreen = ({ navigation }) => {
         cancelable
       >
         <ScrollView>
-          {/* <TextInput
-            label="OPERATOR ID"
-            value={opid}
-            onChangeText={(text) => setOpid(text)} //operator id
-            mode="outlined"
-          /> */}
           <TextInput
             label="BUS NAME"
             value={busname}
@@ -377,94 +403,105 @@ const HomeScreen = ({ navigation }) => {
           <TextInput
             label="PASSWORD"
             value={password}
-            onChangeText={(text) => setpass(text)} //busno
+            onChangeText={(text) => setPassword(text)} //busno
             mode="outlined"
           />
-          <View>
-            <Text style={{ fontSize: 20 }}>Route</Text>
+          {/* <View>
+            <Text style={{ fontSize: 18, margin: 8, height: 20 }}>Route</Text>
           </View>
-          <Picker
-            selectedValue={route}
-            style={{
-              height: 150,
-              width: "100%",
-            }}
-            onValueChange={(itemValue, itemIndex) => setRoute(itemValue)}
-          >
-            <Picker.Item label="Padubidri" value="Padubidri" />
-            <Picker.Item label="Mudubidri" value="Mudubidri" />
-          </Picker>
-          <View>
-            <Text style={{ fontSize: 20 }}>startPoint</Text>
-          </View>
-          <Picker
-            selectedValue={spoint}
-            style={{ height: 100, width: "100%" }}
-            onValueChange={(itemValue, itemIndex) => setSpoint(itemValue)}
-          >
-            <Picker.Item label="Mangalore" value="Mangalore" />
-            <Picker.Item label="Karkala" value="Karkala" />
-          </Picker>
-          {/* <TextInput
-            label="LAST STOP"
-            value={dpoint}
-            onChangeText={(text) => setDponit(text)} //endpoint
-            mode="outlined"
+          <DropDownPicker
+            zIndex={9000}
+            zIndexInverse={1000}
+            open={open1}
+            value={route}
+            items={items}
+            setOpen={setOpen1}
+            setValue={setRoute}
+            setItems={setItems}
           /> */}
           <View>
-            <Text style={{ fontSize: 20 }}>Destination Point</Text>
+            <Text style={{ fontSize: 18, margin: 8 }}>startPoint</Text>
           </View>
-          <Picker
-            selectedValue={dpoint}
-            style={{ height: 120, width: "100%" }}
-            onValueChange={(itemValue, itemIndex) => setDponit(itemValue)}
-          >
-            <Picker.Item label="Karkala" value="Karkala" />
-            <Picker.Item label="Mangalore" value="Mangalore" />
-          </Picker>
+          <DropDownPicker
+            zIndex={8000}
+            zIndexInverse={2000}
+            open={open2}
+            value={spoint}
+            items={items}
+            setOpen={setOpen2}
+            setValue={setSpoint}
+            setItems={setItems}
+          />
           <View>
-            <Text style={{ fontSize: 20 }}>Stop1</Text>
+            <Text style={{ fontSize: 18, margin: 8 }}>Destination Point</Text>
           </View>
-          <Picker
-            selectedValue={stop1}
-            style={{ height: 120, width: "100%" }}
-            onValueChange={(itemValue, itemIndex) => setstop1(itemValue)}
-          >
-            <Picker.Item label="Jhoti" value="Jhoti" />
-            <Picker.Item label="annekerre" value="annekerre" />
-          </Picker>
+          <DropDownPicker
+            zIndex={3000}
+            zIndexInverse={1000}
+            open={open3}
+            value={dpoint}
+            items={items}
+            setOpen={setOpen3}
+            setValue={setDponit}
+            setItems={setItems}
+          />
           <View styles={{ flex: 1, justifyContent: "center" }}>
+            <View>
+              <Text style={{ fontSize: 18, margin: 8 }}>Stop1</Text>
+            </View>
+
+            <DropDownPicker
+              zIndex={7000}
+              zIndexInverse={1000}
+              open={open4}
+              value={stop1}
+              items={items}
+              setOpen={setOpen4}
+              setValue={setstop1}
+              setItems={setItems}
+            />
             <TextInput
               label="Reaching Time"
               value={stop1time}
               style={{ height: 50, width: "100%" }}
-              onChangeText={(text) => setstop1time(text)} //endpoint
+              onChangeText={(text) => setstop1time(text)}
               mode="outlined"
             />
+            <View>
+              <Text style={{ fontSize: 18, margin: 8 }}>Stop2</Text>
+            </View>
+            <DropDownPicker
+              zIndex={6000}
+              zIndexInverse={1000}
+              open={open5}
+              value={stop2}
+              items={items}
+              setOpen={setOpen5}
+              setValue={setstop2}
+              setItems={setItems}
+            />
 
-            <Picker
-              selectedValue={stop2}
-              style={{ height: 50, width: "100%" }}
-              onValueChange={(itemValue, itemIndex) => setstop2(itemValue)}
-            >
-              <Picker.Item label="Vamanjoor" value="Vamanjoor" />
-              <Picker.Item label="Belvay" value="Belvay" />
-            </Picker>
             <TextInput
               label="Reaching Time"
               value={stop2time}
               style={{ height: 50, width: "100%" }}
-              onChangeText={(text) => setstop2time(text)} //endpoint
+              onChangeText={(text) => setstop2time(text)}
               mode="outlined"
             />
-            <Picker
-              selectedValue={stop3}
-              style={{ height: 50, width: "100%" }}
-              onValueChange={(itemValue, itemIndex) => setstop3(itemValue)}
-            >
-              <Picker.Item label="Ganjimat" value="Ganjimat" />
-              <Picker.Item label="Mudubidri" value="Mudubidri" />
-            </Picker>
+
+            <View>
+              <Text style={{ fontSize: 18, margin: 8 }}>Stop3</Text>
+            </View>
+            <DropDownPicker
+              zIndex={5000}
+              zIndexInverse={1000}
+              open={open6}
+              value={stop3}
+              items={items}
+              setOpen={setOpen6}
+              setValue={setstop3}
+              setItems={setItems}
+            />
             <TextInput
               label="Reaching Time"
               value={stop3time}
@@ -472,14 +509,19 @@ const HomeScreen = ({ navigation }) => {
               onChangeText={(text) => setstop3time(text)} //endpoint
               mode="outlined"
             />
-            <Picker
-              selectedValue={stop4}
-              style={{ height: 50, width: "100%" }}
-              onValueChange={(itemValue, itemIndex) => setstop4(itemValue)}
-            >
-              <Picker.Item label="Mudubidri" value="Mudubidri" />
-              <Picker.Item label="Ganjimat" value="Ganjimat" />
-            </Picker>
+            <View>
+              <Text style={{ fontSize: 18, margin: 8 }}>Stop4</Text>
+            </View>
+            <DropDownPicker
+              zIndex={4000}
+              zIndexInverse={1000}
+              open={open7}
+              value={stop4}
+              items={items}
+              setOpen={setOpen7}
+              setValue={setstop4}
+              setItems={setItems}
+            />
             <TextInput
               label="Reaching Time"
               value={stop4time}
@@ -487,14 +529,19 @@ const HomeScreen = ({ navigation }) => {
               onChangeText={(text) => setstop4time(text)} //endpoint
               mode="outlined"
             />
-            <Picker
-              selectedValue={stop5}
-              style={{ height: 50, width: "100%" }}
-              onValueChange={(itemValue, itemIndex) => setstop5(itemValue)}
-            >
-              <Picker.Item label="Belvay" value="Belvay" />
-              <Picker.Item label="Vamanjoor" value="Vamanjoor" />
-            </Picker>
+            <View>
+              <Text style={{ fontSize: 18, margin: 8 }}>Stop5</Text>
+            </View>
+            <DropDownPicker
+              zIndex={3000}
+              zIndexInverse={1000}
+              open={open8}
+              value={stop5}
+              items={items}
+              setOpen={setOpen8}
+              setValue={setstop5}
+              setItems={setItems}
+            />
             <TextInput
               label="Reaching Time"
               value={stop5time}
@@ -502,15 +549,20 @@ const HomeScreen = ({ navigation }) => {
               onChangeText={(text) => setstop5time(text)} //endpoint
               mode="outlined"
             />
+            <View>
+              <Text style={{ fontSize: 18, margin: 8 }}>Stop6</Text>
+            </View>
+            <DropDownPicker
+              zIndex={2000}
+              zIndexInverse={1000}
+              open={open9}
+              value={stop6}
+              items={items}
+              setOpen={setOpen9}
+              setValue={setstop6}
+              setItems={setItems}
+            />
 
-            <Picker
-              selectedValue={stop6}
-              style={{ height: 50, width: "100%" }}
-              onValueChange={(itemValue, itemIndex) => setstop6(itemValue)}
-            >
-              <Picker.Item label="annekerre" value="annekerre" />
-              <Picker.Item label="Jhoti" value="Jhoti" />
-            </Picker>
             <TextInput
               label="Reaching Time"
               value={stop6time}
@@ -518,6 +570,9 @@ const HomeScreen = ({ navigation }) => {
               onChangeText={(text) => setstop6time(text)} //endpoint
               mode="outlined"
             />
+            <View>
+              <Text style={{ fontSize: 18, margin: 8 }}>STATUS</Text>
+            </View>
             <TextInput
               label="STATUS(1/0)"
               value={status}

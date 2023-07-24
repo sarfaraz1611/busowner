@@ -9,7 +9,7 @@ import {
 import React, { useState, useContext } from "react";
 import { UserContext } from "../App";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { ArrowLeftIcon } from "react-native-heroicons/solid";
+
 import axios from "axios";
 
 const LoginTailwind = ({ navigation }) => {
@@ -18,12 +18,13 @@ const LoginTailwind = ({ navigation }) => {
 
   const { setId, setRoles } = useContext(UserContext);
 
-  const login = async ({ navigation }) => {
+  const login = async () => {
     await axios
       .get(
-        `https://sarfaraz.onrender.com/user/login?email=${email}&password=${password}`
+        `http://192.168.0.193:3100/user/login?email=${email}&password=${password}`
       )
       .then((response) => {
+        console.log(response.data);
         if (response.data.success == true) {
           setId(response.data.message);
 
@@ -59,11 +60,6 @@ const LoginTailwind = ({ navigation }) => {
   return (
     <View className="flex-1 bg-[#1d1d1f]">
       <SafeAreaView className="flex ">
-        <View className="flex-row justify-start">
-          <TouchableOpacity className="bg-[#ECDBBA] p-2 rounded-tr-2xl rounded-bl-2xl ml-4">
-            <ArrowLeftIcon size="20" color="black" />
-          </TouchableOpacity>
-        </View>
         <View className="flex-row justify-center py-10">
           <Image
             source={require("../assets/images/welcome.png")}

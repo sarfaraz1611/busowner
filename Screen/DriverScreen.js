@@ -64,36 +64,6 @@ const DriverScreen = ({ navigation }) => {
       // console.log("====================================");
     }
   };
-  console.log("====================================");
-  console.log("latis ", lat);
-  console.log(long);
-  console.log(place);
-  console.log("====================================");
-
-  const call = async () => {
-    try {
-      const response = await axios.get(
-        `https://sarfaraz.onrender.com/driver/${id}`
-      );
-      setData(response.data.data[0]);
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
-  useEffect(() => {
-    call();
-    const interval = setInterval(() => {
-      getLocation();
-      console.log("asljkdakjdcd");
-    }, 10000);
-    return () => clearInterval(interval);
-  }, []);
-  useEffect(() => {
-    if (lat && long && place) {
-      locationpush(id, lat, long, place);
-    }
-  }, [lat, long, place]);
 
   const locationpush = async (id, lat, long, place) => {
     try {
@@ -111,6 +81,121 @@ const DriverScreen = ({ navigation }) => {
       console.error("Error updating location:", error);
     }
   };
+  if (place == "Karkala") {
+    console.log("stop1 triggerd");
+    try {
+      const response = axios.post(
+        `https://sarfaraz.onrender.com/location/${id}/stop1`
+      );
+
+      console.log(response.data);
+    } catch (error) {
+      console.error("Error updating location:", error);
+    }
+  } else if (place == "Jhoti") {
+    console.log("stop1 triggerd");
+    try {
+      const response = axios.post(
+        `https://sarfaraz.onrender.com/location/${id}/stop2`
+      );
+
+      console.log(response.data);
+    } catch (error) {
+      console.error("Error updating location:", error);
+    }
+  } else if (place == "Vamanjoor") {
+    console.log("stop1 triggerd");
+    try {
+      const response = axios.post(
+        `https://sarfaraz.onrender.com/location/${id}/stop3`
+      );
+
+      console.log(response.data);
+    } catch (error) {
+      console.error("Error updating location:", error);
+    }
+  } else if (place == "Ganjimat") {
+    console.log("stop1 triggerd");
+    try {
+      const response = axios.post(
+        `https://sarfaraz.onrender.com/location/${id}/stop4`
+      );
+
+      console.log(response.data);
+    } catch (error) {
+      console.error("Error updating location:", error);
+    }
+  } else if (place == "Mudubidri") {
+    console.log("stop1 triggerd");
+    try {
+      const response = axios.post(
+        `https://sarfaraz.onrender.com/location/${id}/stop5`
+      );
+
+      console.log(response.data);
+    } catch (error) {
+      console.error("Error updating location:", error);
+    }
+  } else if (place == "Belvay") {
+    console.log("stop1 triggerd");
+    try {
+      const response = axios.post(
+        `https://sarfaraz.onrender.com/location/${id}/stop6`
+      );
+
+      console.log(response.data);
+    } catch (error) {
+      console.error("Error updating location:", error);
+    }
+  } else if (place == "annekerre") {
+    console.log("stop1 triggerd");
+    try {
+      const response = axios.post(
+        `https://sarfaraz.onrender.com/location/${id}/stop7`
+      );
+
+      console.log(response.data);
+    } catch (error) {
+      console.error("Error updating location:", error);
+    }
+  } else if (place == "Mangalore") {
+    console.log("stop1 triggerd");
+    try {
+      const response = axios.post(
+        `https://sarfaraz.onrender.com/location/${id}/stop8`
+      );
+
+      console.log(response.data);
+    } catch (error) {
+      console.error("Error updating location:", error);
+    }
+  }
+
+  const call = async () => {
+    try {
+      const response = await axios.get(
+        `https://sarfaraz.onrender.com/driver/${id}`
+      );
+      setData(response.data.data[0]);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  useEffect(() => {
+    call();
+    const interval = setInterval(() => {
+      getLocation();
+    }, 10000);
+    return () => clearInterval(interval);
+  }, []);
+
+  useEffect(() => {
+    if (lat && long && place) {
+      locationpush(id, lat, long, place);
+    }
+  }, [lat, long, place]);
+
   return (
     <SafeAreaView style={styles.container}>
       <Surface style={styles.header}>
@@ -124,7 +209,8 @@ const DriverScreen = ({ navigation }) => {
             fontSize: 30,
             fontWeight: "bold",
             marginBottom: 20,
-          }}>
+          }}
+        >
           {data.busName}
         </Text>
         <View style={{ flexDirection: "column" }}>

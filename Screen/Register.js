@@ -21,13 +21,13 @@ function Register({ navigation }) {
   const [Email, setEmail] = useState("");
   const [name, setname] = useState("");
   const [password, setPassword] = useState("");
-  const [roles, setRoles] = useState("");
-  const [open, setOpen] = useState(false);
+  const [roles, setRoles] = useState("owner");
+  // const [open, setOpen] = useState(false);
 
-  const [items, setItems] = useState([
-    { label: "driver", value: "driver" },
-    { label: "owner", value: "owner" },
-  ]);
+  // const [items, setItems] = useState([
+  //   { label: "driver", value: "driver" },
+  //   { label: "owner", value: "owner" },
+  // ]);
 
   const Registerfunction = async () => {
     console.log(password);
@@ -50,9 +50,9 @@ function Register({ navigation }) {
         console.log(e);
       });
   };
-  const handleSelect = (value) => {
-    setRoles(Options[value]);
-  };
+  // const handleSelect = (value) => {
+  //   setRoles(Options[value]);
+  // };
 
   return (
     <View className="flex-1 bg-[#1d1d1d]">
@@ -97,29 +97,16 @@ function Register({ navigation }) {
             onChangeText={(text) => setPassword(text)}
             placeholder="Enter Password"
           />
-          <Text className="text-gray-700 ml-4">Role</Text>
-          <DropDownPicker
+          {/* <Text className="text-gray-700 ml-4">Role</Text> */}
+          {/* <DropDownPicker
             open={open}
             value={roles}
             items={items}
             setOpen={setOpen}
             setValue={setRoles}
             setItems={setItems}
-          />
-          {/* <ModalDropdown
-            options={Options}
-            onSelect={handleSelect}
-            defaultValue="2"
-            style={""}
-            textStyle={"styles.dropdownText"}
-            dropdownStyle={"styles.dropdownMenu"}
-            // dropdownTextStyle={styles.dropdownMenuItemText}
-          >
-            <View style={"styles.dropdownInnerContainer"}>
-              <Text style={""}>{"Role"}</Text>
-              <Text style={"styles.dropdownArrow"}>▼</Text>
-            </View>
-          </ModalDropdown> */}
+          /> */}
+
           <TouchableOpacity
             className="py-3 bg-[#ECDBBA] rounded-xl"
             onPress={() => {

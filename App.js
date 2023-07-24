@@ -9,6 +9,8 @@ import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import DriverScreen from "./Screen/DriverScreen";
 import OwnerScreen from "./Screen/OwnerScreen";
+import DetailsScreen from "./Screen/DetailsScreen";
+
 const Stack = createNativeStackNavigator();
 export const UserContext = createContext();
 
@@ -20,11 +22,11 @@ export default function App() {
     <UserContext.Provider value={{ id, setId, roles, setRoles }}>
       <NavigationContainer>
         <Stack.Navigator screenOptions={{ headerShown: false }}>
-          {/* <Stack.Screen name="Loginscreen" component={LoginScreen} /> */}
           <Stack.Screen name="LoginTailwind" component={LoginTailwind} />
           <Stack.Screen name="HomeScreen" component={HomeScreen} />
           <Stack.Screen name="DriverScreen" component={DriverScreen} />
           <Stack.Screen name="OwnerScreen" component={OwnerScreen} />
+          <Stack.Screen name="DetailsScreen" component={DetailsScreen} />
           <Stack.Screen name="Register" component={Register} />
         </Stack.Navigator>
         {/* <Location /> */}

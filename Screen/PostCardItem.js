@@ -20,34 +20,38 @@ export default function PostCardItem({
   status,
   onEdit,
   onDelete,
+  onPress,
 }) {
   // console.log(opid);
   return (
-    <Card style={styles.item}>
-      <View style={styles.rowView}>
-        <View>
-          <Text style={styles.title}>{busname}</Text>
-          <Text>BusName:{busname}</Text>
-          <Text>BusRNo:{busno}</Text>
-          <Text>password:{password}</Text>
-          <Text>Route:{route}</Text>
-          <Text>Spoint:{spoint}</Text>
-          <Text>Dpoint:{dpoint}</Text>
-          <Text
-            style={status === "1" ? styles.txt_enabled : styles.txt_disabled}>
-            {status === "1" ? "AVAILABLE" : "NOTAVAILABLE"}
-          </Text>
-        </View>
+    <TouchableOpacity onPress={onPress}>
+      <Card style={styles.item}>
         <View style={styles.rowView}>
-          <Button
-            onPress={onEdit}
-            icon="edit"
-            style={{ marginHorizontal: 16 }}
-          />
-          <Button onPress={onDelete} icon="trash-2" />
+          <View>
+            <Text style={styles.title}>{busname}</Text>
+            <Text>BusName:{busname}</Text>
+            <Text>BusRNo:{busno}</Text>
+            {/* <Text>password:{password}</Text> */}
+            <Text>Route:{route}</Text>
+            <Text>Spoint:{spoint}</Text>
+            <Text>Dpoint:{dpoint}</Text>
+            <Text
+              style={status === "1" ? styles.txt_enabled : styles.txt_disabled}
+            >
+              {status === "1" ? "AVAILABLE" : "NOTAVAILABLE"}
+            </Text>
+          </View>
+          <View style={styles.rowView}>
+            <Button
+              onPress={onEdit}
+              icon="edit"
+              style={{ marginHorizontal: 16 }}
+            />
+            <Button onPress={onDelete} icon="trash-2" />
+          </View>
         </View>
-      </View>
-    </Card>
+      </Card>
+    </TouchableOpacity>
   );
 }
 
@@ -59,6 +63,8 @@ const styles = StyleSheet.create({
     backgroundColor: "white",
   },
   item: {
+    backgroundColor: "white",
+
     padding: 16,
     margin: 6,
     elevation: 4,
