@@ -115,9 +115,10 @@ const OwnerScreen = ({ navigation }) => {
       })
       .then((res) => {
         // isSetLoading(false);
-        console.log("updated");
+
         Toast.success("Updated  Succesfully");
         // setData(res.data.data);
+        call();
       })
       .catch((e) => console.log(e));
   };
@@ -154,7 +155,7 @@ const OwnerScreen = ({ navigation }) => {
         console.log("added successfully");
         Toast.success("Added  Succesfully");
 
-        setData(res.data.data);
+        // setData(res.data.data);
         call();
       })
       .catch((e) => console.log(e));

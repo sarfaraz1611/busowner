@@ -115,10 +115,10 @@ const HomeScreen = ({ navigation }) => {
       })
       .then((res) => {
         // isSetLoading(false);
-        console.log("updated");
-        Toast.success("Updated  Succesfully");
 
-        setData(res.data.data);
+        Toast.success("Updated  Succesfully");
+        // setData(() => res.data.data);
+        call();
       })
       .catch((e) => console.log(e));
   };
@@ -152,10 +152,9 @@ const HomeScreen = ({ navigation }) => {
       .then((res) => {
         // setCourses(res.data.data);
         // isSetLoading(false);
-        console.log("added successfully");
-        Toast.success("new Data added  Succesfully");
-
-        // setData(res.data.data);
+        // setData(() => res.data.data);
+        call();
+        Toast.success("added  Succesfully");
       })
       .catch((e) => console.log(e));
   };
@@ -250,7 +249,7 @@ const HomeScreen = ({ navigation }) => {
       .then((res) => {
         // isSetLoading(false);
         // console.log(res.data.data);
-        setData(res.data.data);
+        setData(() => res.data.data);
       })
       .catch((e) => console.log(e));
   };
