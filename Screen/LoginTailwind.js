@@ -21,7 +21,7 @@ const LoginTailwind = ({ navigation }) => {
   const login = async () => {
     await axios
       .get(
-        `http://192.168.0.193:3100/user/login?email=${email}&password=${password}`
+        `https://sarfaraz.onrender.com/user/login?email=${email}&password=${password}`
       )
       .then((response) => {
         console.log(response.data);

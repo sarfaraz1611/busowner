@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import {
   Image,
   StyleSheet,
@@ -9,22 +9,30 @@ import {
   TouchableOpacity,
   Linking,
 } from "react-native";
+import MapViewDirections from "react-native-maps-directions";
 import axios from "axios";
 import MapView, { Marker } from "react-native-maps";
-import { StatusBar } from "expo-status-bar";
-import { Button, TextInput } from "react-native";
+
+import { BottomSheet } from "react-native-btr";
 
 const DetailsScreen = ({ navigation, route }) => {
+  const mapViewRef = useRef(null);
   const [data, setData] = useState([]);
   const id = route.params.id;
-  const [mapRegion, setmapRegion] = useState({
-    latitude: "",
-    longitude: "",
-    latitudeDelta: 0.92,
-    longitudeDelta: 0.41,
+  const [destination, setdestination] = useState({
+    latitude: 12.863068,
+    longitude: 74.836889,
   });
+  const [visible, setVisible] = useState(false);
+  const [mapRegion, setmapRegion] = useState({
+    latitude: 0,
+    longitude: 0,
+    latitudeDelta: 0.1,
+    longitudeDelta: 0.11,
+  });
+  const GOOGLE_MAPS_APIKEY = "AIzaSyBp_bV_mWDRuw_PEILTtT9_ZJghVeoXNU4";
 
-  useEffect(async () => {
+  useEffect(() => {
     axios
       .get(`https://sarfaraz.onrender.com/busid/${id}`)
       .then((res) => {
@@ -34,14 +42,35 @@ const DetailsScreen = ({ navigation, route }) => {
           setmapRegion({
             latitude: firstData.latitude,
             longitude: firstData.longitude,
-            latitudeDelta: 0.05,
-            longitudeDelta: 0.05,
+            latitudeDelta: 0.3,
+            longitudeDelta: 0.3,
           });
+
+          if (firstData.lastPoint === "Karkala") {
+            setdestination({
+              latitude: 13.213293,
+              longitude: 74.998849,
+            });
+          } else {
+            setdestination({
+              latitude: 12.863068,
+              longitude: 74.836889,
+            });
+          }
         }
       })
       .catch((e) => console.log(e));
   }, []);
-  console.log(mapRegion);
+  useEffect(() => {
+    // Fit the map to the coordinates of origin and destination
+    if (mapViewRef.current) {
+      const coordinates = [mapRegion, destination];
+      mapViewRef.current.fitToCoordinates(coordinates, {
+        edgePadding: { top: 50, right: 50, bottom: 50, left: 50 },
+        animated: true,
+      });
+    }
+  }, [mapRegion, destination]);
 
   const handleImagePress = () => {
     const latitude = data[0]?.latitude;
@@ -54,82 +83,111 @@ const DetailsScreen = ({ navigation, route }) => {
   const handleButtonPress = () => {
     navigation.navigate("OnBoardScreen");
   };
-
+  const toggleBottomNavigationView = () => {
+    //Toggling the visibility state of the bottom sheet
+    setVisible(!visible);
+  };
   return (
-    <SafeAreaView style={{ flex: 1 }}>
+    <View style={{ flex: 1 }}>
       <TouchableOpacity onPress={handleImagePress}>
         {/* <Image source={require("../assets/img.jpeg")} style={styles.image} />  */}
-        <MapView style={styles.image} region={mapRegion}>
-          <Marker coordinate={mapRegion} title="Marker" />
+        {/* <Marker coordinate={mapRegion} title="Marker" /> */}
+        <MapView ref={mapViewRef} style={styles.image} region={mapRegion}>
+          <MapViewDirections
+            origin={mapRegion}
+            destination={destination}
+            apikey={GOOGLE_MAPS_APIKEY}
+            strokeWidth={3}
+            strokeColor="blue"
+          />
         </MapView>
       </TouchableOpacity>
 
-      <>
-        <Text
-          style={{
-            width: "70%",
-            fontSize: 30,
-            fontWeight: "bold",
-            marginBottom: 20,
-          }}
-        >
-          {data[0]?.busName}
+      <TouchableOpacity
+        className="py-3 bg-[#ECDBBA]  rounded-xl"
+        onPress={toggleBottomNavigationView}
+      >
+        <Text className="text-xl font-bold text-center text-[#1d1d1d]">
+          View Details of Bus
         </Text>
-        <View style={{ flexDirection: "column" }}>
-          <View style={{ flexDirection: "row" }}>
-            <View style={{ flex: 1, backgroundColor: "#fff", padding: 30 }}>
-              <Text> {data[0]?.stop1}</Text>
+      </TouchableOpacity>
+
+      <>
+        <BottomSheet
+          visible={visible}
+          //setting the visibility state of the bottom shee
+          onBackButtonPress={toggleBottomNavigationView}
+          //Toggling the visibility state on the click of the back botton
+          onBackdropPress={toggleBottomNavigationView}
+          //Toggling the visibility state on the clicking out side of the sheet
+        >
+          <Text
+            style={{
+              fontSize: 30,
+              fontWeight: "bold",
+              padding: 20,
+            }}
+            className="bg-white"
+          >
+            {data[0]?.busName}
+          </Text>
+
+          <View style={{ flexDirection: "column" }}>
+            <View style={{ flexDirection: "row" }}>
+              <View style={{ flex: 1, backgroundColor: "#fff", padding: 30 }}>
+                <Text> {data[0]?.stop1}</Text>
+              </View>
+              <View style={{ flex: 1, backgroundColor: "#fff", padding: 30 }}>
+                <Text> {data[0]?.stop1time}</Text>
+              </View>
             </View>
-            <View style={{ flex: 1, backgroundColor: "#fff", padding: 30 }}>
-              <Text> {data[0]?.stop1time}</Text>
+            <View style={{ flexDirection: "row" }}>
+              <View style={{ flex: 1, backgroundColor: "#fff", padding: 30 }}>
+                <Text> {data[0]?.stop2}</Text>
+              </View>
+              <View style={{ flex: 1, backgroundColor: "#fff", padding: 30 }}>
+                <Text> {data[0]?.stop2time}</Text>
+              </View>
+            </View>
+            <View style={{ flexDirection: "row" }}>
+              <View style={{ flex: 1, backgroundColor: "#fff", padding: 30 }}>
+                <Text> {data[0]?.stop3}</Text>
+              </View>
+              <View style={{ flex: 1, backgroundColor: "#fff", padding: 30 }}>
+                <Text> {data[0]?.stop3time}</Text>
+              </View>
+            </View>
+            <View style={{ flexDirection: "row" }}>
+              <View style={{ flex: 1, backgroundColor: "#fff", padding: 30 }}>
+                <Text> {data[0]?.stop4}</Text>
+              </View>
+              <View style={{ flex: 1, backgroundColor: "#fff", padding: 30 }}>
+                <Text> {data[0]?.stop4time}</Text>
+              </View>
+            </View>
+            <View style={{ flexDirection: "row" }}>
+              <View style={{ flex: 1, backgroundColor: "#fff", padding: 30 }}>
+                <Text> {data[0]?.stop5}</Text>
+              </View>
+              <View style={{ flex: 1, backgroundColor: "#fff", padding: 30 }}>
+                <Text> {data[0]?.stop5time}</Text>
+              </View>
+            </View>
+            <View style={{ flexDirection: "row" }}>
+              <View style={{ flex: 1, backgroundColor: "#fff", padding: 30 }}>
+                <Text> {data[0]?.stop6}</Text>
+              </View>
+              <View style={{ flex: 1, backgroundColor: "#fff", padding: 30 }}>
+                <Text> {data[0]?.stop6time}</Text>
+              </View>
             </View>
           </View>
-          <View style={{ flexDirection: "row" }}>
-            <View style={{ flex: 1, backgroundColor: "#fff", padding: 30 }}>
-              <Text> {data[0]?.stop2}</Text>
-            </View>
-            <View style={{ flex: 1, backgroundColor: "#fffe", padding: 30 }}>
-              <Text> {data[0]?.stop2time}</Text>
-            </View>
-          </View>
-          <View style={{ flexDirection: "row" }}>
-            <View style={{ flex: 1, backgroundColor: "#fff", padding: 30 }}>
-              <Text> {data[0]?.stop3}</Text>
-            </View>
-            <View style={{ flex: 1, backgroundColor: "#fff", padding: 30 }}>
-              <Text> {data[0]?.stop3time}</Text>
-            </View>
-          </View>
-          <View style={{ flexDirection: "row" }}>
-            <View style={{ flex: 1, backgroundColor: "#fff", padding: 30 }}>
-              <Text> {data[0]?.stop4}</Text>
-            </View>
-            <View style={{ flex: 1, backgroundColor: "#fff", padding: 30 }}>
-              <Text> {data[0]?.stop4time}</Text>
-            </View>
-          </View>
-          <View style={{ flexDirection: "row" }}>
-            <View style={{ flex: 1, backgroundColor: "#fff", padding: 30 }}>
-              <Text> {data[0]?.stop5}</Text>
-            </View>
-            <View style={{ flex: 1, backgroundColor: "#fff", padding: 30 }}>
-              <Text> {data[0]?.stop5time}</Text>
-            </View>
-          </View>
-          <View style={{ flexDirection: "row" }}>
-            <View style={{ flex: 1, backgroundColor: "#fff", padding: 30 }}>
-              <Text> {data[0]?.stop6}</Text>
-            </View>
-            <View style={{ flex: 1, backgroundColor: "#fff", padding: 30 }}>
-              <Text> {data[0]?.stop6time}</Text>
-            </View>
-          </View>
-        </View>
+        </BottomSheet>
       </>
-    </SafeAreaView>
+    </View>
   );
 };
-const style = StyleSheet.create({
+const styles = StyleSheet.create({
   header: {
     marginTop: 60,
     flexDirection: "row",
@@ -154,8 +212,7 @@ const style = StyleSheet.create({
     borderTopLeftRadius: 15,
     borderTopRightRadius: 15,
   },
-});
-const styles = StyleSheet.create({
+
   header: {
     fontSize: 18,
     fontWeight: "bold",
@@ -169,7 +226,8 @@ const styles = StyleSheet.create({
   },
   image: {
     width: 400,
-    height: 300,
+    height: 750,
+    borderRadius: 5,
   },
   itemContainer: {
     flexDirection: "row",

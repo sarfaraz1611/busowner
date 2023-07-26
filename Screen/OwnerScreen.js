@@ -260,16 +260,19 @@ const OwnerScreen = ({ navigation }) => {
   }, [visible]);
 
   return (
-    <SafeAreaView style={styles.container}>
+    <View style={styles.container}>
       <Container position="top" />
-      <StatusBar
-        backgroundColor="#ffffff"
+      {/* <StatusBar
+        backgroundColor="#000000"
         animated={true}
         hidden={true}
         translucent={true}
-      ></StatusBar>
+      ></StatusBar> */}
       <Surface style={styles.header}>
-        <Title onPress={() => navigation.navigate("LoginTailwind")}>
+        <Title
+          onPress={() => navigation.navigate("LoginTailwind")}
+          className="font-bold  text-2xl"
+        >
           Owner
         </Title>
         <TouchableOpacity
@@ -584,17 +587,19 @@ const OwnerScreen = ({ navigation }) => {
           </View>
         </ScrollView>
       </ModalView>
-    </SafeAreaView>
+    </View>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+
     backgroundColor: "grey",
     justifyContent: "center",
   },
   header: {
+    paddingTop: 50,
     marginTop: Platform.OS === "android" ? 24 : 0,
     padding: 16,
     elevation: 2,
@@ -605,10 +610,12 @@ const styles = StyleSheet.create({
   button: {
     padding: 10,
     borderRadius: 20,
-    backgroundColor: "green",
+    backgroundColor: "#ECDBBA",
   },
   buttonText: {
-    color: "white",
+    color: "#000000",
+    fontWeight: "bold",
+    fontSize: "14px",
   },
   buttonStyle: {
     marginTop: 10,

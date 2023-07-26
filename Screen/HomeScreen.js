@@ -259,7 +259,7 @@ const HomeScreen = ({ navigation }) => {
   }, [visible]);
 
   return (
-    <SafeAreaView style={styles.container}>
+    <View style={styles.container}>
       <Container position="top" />
       <StatusBar
         backgroundColor="#ffffff"
@@ -399,12 +399,7 @@ const HomeScreen = ({ navigation }) => {
             onChangeText={(text) => setBusno(text)} //busno
             mode="outlined"
           />
-          <TextInput
-            label="PASSWORD"
-            value={password}
-            onChangeText={(text) => setPassword(text)} //busno
-            mode="outlined"
-          />
+
           {/* <View>
             <Text style={{ fontSize: 18, margin: 8, height: 20 }}>Route</Text>
           </View>
@@ -581,17 +576,19 @@ const HomeScreen = ({ navigation }) => {
           </View>
         </ScrollView>
       </ModalView>
-    </SafeAreaView>
+    </View>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+
     backgroundColor: "grey",
     justifyContent: "center",
   },
   header: {
+    paddingTop: 50,
     marginTop: Platform.OS === "android" ? 24 : 0,
     padding: 16,
     elevation: 2,
@@ -602,10 +599,19 @@ const styles = StyleSheet.create({
   button: {
     padding: 10,
     borderRadius: 20,
-    backgroundColor: "green",
+    backgroundColor: "#ECDBBA",
   },
   buttonText: {
-    color: "white",
+    color: "#000000",
+    fontWeight: "bold",
+    fontSize: "14px",
+  },
+  buttonStyle: {
+    marginTop: 10,
+    backgroundColor: "white",
+    borderColor: "green",
+    borderWidth: 2,
+    padding: 10,
   },
 });
 

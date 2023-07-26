@@ -35,7 +35,7 @@ function Register({ navigation }) {
     console.log(name);
     const respose = await axios
       .post(
-        `http://192.168.0.193:3100/user/register?Email=${Email}&name=${name}&password=${password}&roles=${roles}`
+        `https://sarfaraz.onrender.com/user/register?Email=${Email}&name=${name}&password=${password}&roles=${roles}`
       )
 
       .then((response) => {
